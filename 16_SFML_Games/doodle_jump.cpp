@@ -50,6 +50,22 @@ void generatePlatforms(point plat[], int count)
     }
 }
 
+//Extract Player Movement
+void handleInput(int& x)
+{
+    if (Keyboard::isKeyPressed(Keyboard::Right)) x += PLAYER_SPEED;
+    if (Keyboard::isKeyPressed(Keyboard::Left)) x -= PLAYER_SPEED;
+}
+
+//updatePhysics()
+void updatePhysics(int& y, float& dy)
+{
+    dy += GRAVITY; // gravity 
+    y += dy; // apply velocity 
+
+    if (y > FALL_LIMIT)
+        dy = JUMP_FORCE;
+}
 
 
 int doodle_jump()
@@ -82,12 +98,8 @@ int doodle_jump()
                 app.close();
         }
 
-    if (Keyboard::isKeyPressed(Keyboard::Right)) x+= PLAYER_SPEED;
-    if (Keyboard::isKeyPressed(Keyboard::Left)) x-=PLAYER_SPEED;
-
-    dy+= GRAVITY;
-    y+=dy;
-    if (y> FALL_LIMIT)  dy= JUMP_FORCE;
+        handleInput(x);
+        updatePhysics(y, dy);
 
     if (y< CAMERA_HEIGHT)
     for (int i=0;i< PLATFORM_COUNT;i++)
@@ -97,7 +109,7 @@ int doodle_jump()
       if (plat[i].y> WINDOW_HEIGHT) {plat[i].y=0; plat[i].x=rand()% WINDOW_WIDTH;}
     }
 
-    for (int i=0;i<10;i++)
+    for (int i=0;i< PLATFORM_COUNT;i++)
         if (isColliding(x, y, dy, plat[i]))
         {
             dy = JUMP_FORCE;
