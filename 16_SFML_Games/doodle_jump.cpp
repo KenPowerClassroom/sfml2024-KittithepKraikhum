@@ -87,6 +87,21 @@ void updateCameraAndPlatforms(int& y, float dy, point plat[])
     }
 }
 
+//Extract Rendering Into Its Own Function
+void render(RenderWindow& app, Sprite& sBackground, Sprite& sPers, Sprite& sPlat, point plat[])
+{
+    app.draw(sBackground);
+    app.draw(sPers);
+
+    for (int i = 0; i < PLATFORM_COUNT; i++)
+    {
+        sPlat.setPosition(plat[i].x, plat[i].y);
+        app.draw(sPlat);
+    }
+
+    app.display();
+}
+
 
 int doodle_jump()
 {
@@ -132,15 +147,17 @@ int doodle_jump()
 
     sPers.setPosition(x,y);
 
-    app.draw(sBackground);
-    app.draw(sPers);
-    for (int i=0;i< PLATFORM_COUNT;i++)
-    {
-    sPlat.setPosition(plat[i].x,plat[i].y);
-    app.draw(sPlat);
-    }
 
-    app.display();
+render(app, sBackground, sPers, sPlat, plat);
+    //app.draw(sBackground);
+    //app.draw(sPers);
+    //for (int i=0;i< PLATFORM_COUNT;i++)
+    //{
+    //sPlat.setPosition(plat[i].x,plat[i].y);
+    //app.draw(sPlat);
+    //}
+
+    //app.display();
 }
 
     return 0;
