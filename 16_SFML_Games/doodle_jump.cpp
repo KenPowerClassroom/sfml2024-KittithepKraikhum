@@ -18,6 +18,12 @@ const int PLATFORM_COUNT = 10;
 
 const int PLAYER_SPEED = 3;
 
+const int FALL_LIMIT = 500;
+
+const int CAMERA_HEIGHT = 200;
+
+
+
 
 struct point
 { int x,y;};
@@ -64,7 +70,7 @@ int doodle_jump()
 
     generatePlatforms(plat, PLATFORM_COUNT);
 
-    int x=100,y=100,h=200;
+    int x = 100, y = 100;
     float dx=0,dy=0;
 
     while (app.isOpen())
@@ -79,14 +85,14 @@ int doodle_jump()
     if (Keyboard::isKeyPressed(Keyboard::Right)) x+= PLAYER_SPEED;
     if (Keyboard::isKeyPressed(Keyboard::Left)) x-=PLAYER_SPEED;
 
-    dy+=0.2;
+    dy+= GRAVITY;
     y+=dy;
-    if (y>500)  dy=-10;
+    if (y> FALL_LIMIT)  dy= JUMP_FORCE;
 
-    if (y<h)
-    for (int i=0;i<10;i++)
+    if (y< CAMERA_HEIGHT)
+    for (int i=0;i< PLATFORM_COUNT;i++)
     {
-      y=h;
+      y= CAMERA_HEIGHT;
       plat[i].y=plat[i].y-dy;
       if (plat[i].y> WINDOW_HEIGHT) {plat[i].y=0; plat[i].x=rand()% WINDOW_WIDTH;}
     }
@@ -101,7 +107,7 @@ int doodle_jump()
 
     app.draw(sBackground);
     app.draw(sPers);
-    for (int i=0;i<10;i++)
+    for (int i=0;i< PLATFORM_COUNT;i++)
     {
     sPlat.setPosition(plat[i].x,plat[i].y);
     app.draw(sPlat);
