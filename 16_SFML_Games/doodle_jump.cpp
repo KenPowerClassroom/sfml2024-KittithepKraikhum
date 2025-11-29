@@ -67,6 +67,26 @@ void updatePhysics(int& y, float& dy)
         dy = JUMP_FORCE;
 }
 
+//Extract Camera
+void updateCameraAndPlatforms(int& y, float dy, point plat[])
+{
+    if (y < CAMERA_HEIGHT)
+    {
+        y = CAMERA_HEIGHT;
+
+        for (int i = 0; i < PLATFORM_COUNT; i++)
+        {
+            plat[i].y -= dy;
+
+            if (plat[i].y > WINDOW_HEIGHT)
+            {
+                plat[i].y = 0;
+                plat[i].x = rand() % WINDOW_WIDTH;
+            }
+        }
+    }
+}
+
 
 int doodle_jump()
 {
@@ -101,13 +121,8 @@ int doodle_jump()
         handleInput(x);
         updatePhysics(y, dy);
 
-    if (y< CAMERA_HEIGHT)
-    for (int i=0;i< PLATFORM_COUNT;i++)
-    {
-      y= CAMERA_HEIGHT;
-      plat[i].y=plat[i].y-dy;
-      if (plat[i].y> WINDOW_HEIGHT) {plat[i].y=0; plat[i].x=rand()% WINDOW_WIDTH;}
-    }
+        //New function
+        updateCameraAndPlatforms(y, dy, plat);
 
     for (int i=0;i< PLATFORM_COUNT;i++)
         if (isColliding(x, y, dy, plat[i]))
