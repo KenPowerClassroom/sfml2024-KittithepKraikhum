@@ -14,6 +14,10 @@ const int PLATFORM_WIDTH = 68;
 const int PLATFORM_HEIGHT = 14;
 const int PLAYER_LEFT_OFFSET = 20;
 
+const int PLATFORM_COUNT = 10;
+
+const int PLAYER_SPEED = 3;
+
 
 struct point
 { int x,y;};
@@ -30,6 +34,17 @@ bool isColliding(int x, int y, float dy, const point& plat)
     return xOverlap && yOverlap && (dy > 0);
 }
 
+//Split platform creation into functions
+void generatePlatforms(point plat[], int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        plat[i].x = rand() % WINDOW_WIDTH;
+        plat[i].y = rand() % WINDOW_HEIGHT;
+    }
+}
+
+
 
 int doodle_jump()
 {
@@ -45,13 +60,9 @@ int doodle_jump()
 
     Sprite sBackground(t1), sPlat(t2), sPers(t3);
 
-    point plat[20];
+    point plat[PLATFORM_COUNT];
 
-    for (int i=0;i<10;i++)
-      {
-       plat[i].x=rand()% WINDOW_WIDTH;
-       plat[i].y=rand()% WINDOW_HEIGHT;
-      }
+    generatePlatforms(plat, PLATFORM_COUNT);
 
     int x=100,y=100,h=200;
     float dx=0,dy=0;
@@ -65,8 +76,8 @@ int doodle_jump()
                 app.close();
         }
 
-    if (Keyboard::isKeyPressed(Keyboard::Right)) x+=3;
-    if (Keyboard::isKeyPressed(Keyboard::Left)) x-=3;
+    if (Keyboard::isKeyPressed(Keyboard::Right)) x+= PLAYER_SPEED;
+    if (Keyboard::isKeyPressed(Keyboard::Left)) x-=PLAYER_SPEED;
 
     dy+=0.2;
     y+=dy;
