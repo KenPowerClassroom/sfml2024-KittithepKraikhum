@@ -2,6 +2,15 @@
 #include <time.h>
 using namespace sf;
 
+//Magic number
+const int WINDOW_WIDTH = 400;
+const int WINDOW_HEIGHT = 533;
+const float GRAVITY = 0.2f;
+const float JUMP_FORCE = -10.f;
+const int PLAYER_WIDTH = 50;
+const int PLAYER_HEIGHT = 70;
+
+
 struct point
 { int x,y;};
 
