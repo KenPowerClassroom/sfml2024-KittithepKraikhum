@@ -12,6 +12,7 @@ const int PLAYER_HEIGHT = 70;
 
 const int PLATFORM_WIDTH = 68;
 const int PLATFORM_HEIGHT = 14;
+const int PLAYER_LEFT_OFFSET = 20;
 
 
 struct point
@@ -67,8 +68,8 @@ int doodle_jump()
     }
 
     for (int i=0;i<10;i++)
-     if ((x+ PLAYER_WIDTH >plat[i].x) && (x+20<plat[i].x+68)
-      && (y+ PLAYER_HEIGHT >plat[i].y) && (y+ PLAYER_HEIGHT <plat[i].y+14) && (dy>0))  dy=-10;
+     if ((x+ PLAYER_WIDTH >plat[i].x) && (x+20<plat[i].x+ PLATFORM_WIDTH)
+      && (y+ PLAYER_HEIGHT >plat[i].y) && (y+ PLAYER_HEIGHT <plat[i].y+ PLATFORM_HEIGHT) && (dy>0))  dy=JUMP_FORCE;
 
     sPers.setPosition(x,y);
 
