@@ -10,6 +10,9 @@ const float JUMP_FORCE = -10.f;
 const int PLAYER_WIDTH = 50;
 const int PLAYER_HEIGHT = 70;
 
+const int PLATFORM_WIDTH = 68;
+const int PLATFORM_HEIGHT = 14;
+
 
 struct point
 { int x,y;};
@@ -18,7 +21,7 @@ int doodle_jump()
 {
     srand(time(0));
 
-    RenderWindow app(VideoMode(400, 533), "Doodle Game!");
+    RenderWindow app(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Doodle Game!");
     app.setFramerateLimit(60);
 
     Texture t1,t2,t3;
@@ -32,8 +35,8 @@ int doodle_jump()
 
     for (int i=0;i<10;i++)
       {
-       plat[i].x=rand()%400;
-       plat[i].y=rand()%533;
+       plat[i].x=rand()% WINDOW_WIDTH;
+       plat[i].y=rand()% WINDOW_HEIGHT;
       }
 
     int x=100,y=100,h=200;
@@ -60,12 +63,12 @@ int doodle_jump()
     {
       y=h;
       plat[i].y=plat[i].y-dy;
-      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand()%400;}
+      if (plat[i].y> WINDOW_HEIGHT) {plat[i].y=0; plat[i].x=rand()% WINDOW_WIDTH;}
     }
 
     for (int i=0;i<10;i++)
-     if ((x+50>plat[i].x) && (x+20<plat[i].x+68)
-      && (y+70>plat[i].y) && (y+70<plat[i].y+14) && (dy>0))  dy=-10;
+     if ((x+ PLAYER_WIDTH >plat[i].x) && (x+20<plat[i].x+68)
+      && (y+ PLAYER_HEIGHT >plat[i].y) && (y+ PLAYER_HEIGHT <plat[i].y+14) && (dy>0))  dy=-10;
 
     sPers.setPosition(x,y);
 
