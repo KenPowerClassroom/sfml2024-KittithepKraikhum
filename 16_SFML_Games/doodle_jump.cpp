@@ -18,6 +18,19 @@ const int PLAYER_LEFT_OFFSET = 20;
 struct point
 { int x,y;};
 
+//Extract collision into its own function
+bool isColliding(int x, int y, float dy, const point& plat)
+{
+    bool xOverlap = (x + PLAYER_WIDTH > plat.x) &&
+        (x + PLAYER_LEFT_OFFSET < plat.x + PLATFORM_WIDTH);
+
+    bool yOverlap = (y + PLAYER_HEIGHT > plat.y) &&
+        (y + PLAYER_HEIGHT < plat.y + PLATFORM_HEIGHT);
+
+    return xOverlap && yOverlap && (dy > 0);
+}
+
+
 int doodle_jump()
 {
     srand(time(0));
@@ -68,8 +81,10 @@ int doodle_jump()
     }
 
     for (int i=0;i<10;i++)
-     if ((x+ PLAYER_WIDTH >plat[i].x) && (x+20<plat[i].x+ PLATFORM_WIDTH)
-      && (y+ PLAYER_HEIGHT >plat[i].y) && (y+ PLAYER_HEIGHT <plat[i].y+ PLATFORM_HEIGHT) && (dy>0))  dy=JUMP_FORCE;
+        if (isColliding(x, y, dy, plat[i]))
+        {
+            dy = JUMP_FORCE;
+        }
 
     sPers.setPosition(x,y);
 
